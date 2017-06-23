@@ -1,0 +1,13 @@
+E:\poc\vz-server\src\main\java\com\poc\vz\model\User.java
+E:\poc\vz-server\src\main\java\com\poc\vz\response\UserProfile.java
+E:\poc\vz-server\src\main\java\com\poc\vz\service\UserProfileService.java
+E:\poc\vz-server\src\main\java\com\poc\vz\activator\JaxRsActivator.java
+E:\poc\vz-server\src\main\java\com\poc\vz\response\TestResponseBean.java
+E:\poc\vz-server\src\main\java\com\poc\vz\rest\WebApi.java
+E:\poc\vz-server\src\main\java\com\poc\vz\dao\UserProfileDao.java
+E:\poc\vz-server\src\main\java\com\poc\vz\request\TestRequestBean.java
+E:\poc\vz-server\src\main\java\com\poc\vz\service\TestService.java
+E:\poc\vz-server\src\main\java\com\poc\vz\request\UserProfileRequest.java
+E:\poc\vz-server\src\main\java\com\poc\vz\jpa\PersistenceResources.java
+E:\poc\vz-server\src\main\java\com\poc\vz\response\UserProfileResponse.java
+E:\poc\vz-server\src\main\java\com\poc\vz\response\BaseResponse.java
