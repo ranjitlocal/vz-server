@@ -3,6 +3,7 @@
  */
 package com.poc.vz.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -349,6 +350,16 @@ public class WebApi
     	List<Order> orders = userProfileService.getOrderList();
     	if(orders != null)
     	{
+    		List<Order> list = new ArrayList<Order>();
+    		Product product = null;
+    		for(Order order : orders)
+    		{
+    			product = userProfileService.getProductDetails(order.getProductId());
+    			order.setProductType(product.getProductType());
+    			order.setProductShortDescription(product.getShortDescription());
+    			list.add(order);
+    		}
+    		
     		orderResponse.setOrders(orders);
     		orderResponse.setSuccess(true);
     		orderResponse.setSuccessCode(ResponseCode.GET_ORDER_LIST_MOBILE_SUCCESS_CODE);

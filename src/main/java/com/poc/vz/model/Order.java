@@ -32,6 +32,8 @@ public class Order implements Serializable{
 	private String totalCost_in_$;
 	private String grantCost_in_$;
 	private String orderStatus;
+	private String productShortDescription;
+	private String productType;
 	
 	@Id
 	public String getOrderId() {
@@ -105,6 +107,21 @@ public class Order implements Serializable{
 	public void setGrantCost_in_$(String grantCost_in_$) {
 		this.grantCost_in_$ = grantCost_in_$;
 	}
-	
+
+	public String getProductShortDescription() {
+		return productShortDescription;
+	}
+
+	public void setProductShortDescription(String productShortDescription) {
+		this.productShortDescription = productShortDescription;
+	}
+
+	public String getProductType() {
+		return productType;
+	}
+
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
 	
 }

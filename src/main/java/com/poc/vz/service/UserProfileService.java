@@ -233,4 +233,11 @@ public class UserProfileService {
 		Recommendation recommendation  = (Recommendation) query.getSingleResult();
 		return recommendation;
 	}
+	
+	@Transactional
+	public Product getProductDetails(String productId)
+	{
+		Product product = entityManager.find(Product.class, productId);
+		return product;
+	}
 }
