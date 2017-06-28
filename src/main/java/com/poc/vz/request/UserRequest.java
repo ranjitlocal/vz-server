@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.poc.vz.response;
+package com.poc.vz.request;
 
 import java.io.Serializable;
 
@@ -9,13 +9,12 @@ import java.io.Serializable;
  * @author ranjit.soni
  *
  */
-
-public class UserProfile implements Serializable{
+public class UserRequest implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6281444609131956610L;
+	private static final long serialVersionUID = 1L;
 	
 	private int id;
 	private String name;
@@ -25,7 +24,6 @@ public class UserProfile implements Serializable{
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}

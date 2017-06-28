@@ -1,8 +1,10 @@
-package com.poc.vz.response;
-
 /**
  * 
  */
+package com.poc.vz.response;
+
+import com.poc.vz.model.UserProfile;
+
 
 /**
  * @author ranjit.soni
@@ -24,5 +26,5 @@ public class UserProfileResponse extends BaseResponse{
 	public void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
 	}
-
+	
 }

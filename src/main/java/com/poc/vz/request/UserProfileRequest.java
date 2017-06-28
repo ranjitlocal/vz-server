@@ -5,50 +5,27 @@ package com.poc.vz.request;
 
 import java.io.Serializable;
 
+import com.poc.vz.model.UserProfile;
+
 /**
  * @author ranjit.soni
  *
  */
-public class UserProfileRequest implements Serializable {
+public class UserProfileRequest implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	private String name;
-	private String mobileNumber;
-	private String emailId;
-	
-	public int getId() {
-		return id;
+	private UserProfile userProfile;
+
+	public UserProfile getUserProfile() {
+		return userProfile;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-	
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-	
-	public String getEmailId() {
-		return emailId;
-	}
-	
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
 }

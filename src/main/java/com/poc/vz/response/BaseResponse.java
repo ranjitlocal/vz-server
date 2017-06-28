@@ -17,7 +17,9 @@ public class BaseResponse implements Serializable{
 	private static final long serialVersionUID = 7169701523899100054L;
 	
 		private boolean success;
-		private String errorMessage;
+		private String successCode;
+		private String errorCode;
+		private String errorDescription;
 		
 		public boolean isSuccess() {
 			return success;
@@ -27,11 +29,27 @@ public class BaseResponse implements Serializable{
 			this.success = success;
 		}
 		
-		public String getErrorMessage() {
-			return errorMessage;
+		public String getSuccessCode() {
+			return successCode;
 		}
 		
-		public void setErrorMessage(String errorMessage) {
-			this.errorMessage = errorMessage;
+		public void setSuccessCode(String successCode) {
+			this.successCode = successCode;
+		}
+		
+		public String getErrorCode() {
+			return errorCode;
+		}
+		
+		public void setErrorCode(String errorCode) {
+			this.errorCode = errorCode;
+		}
+		
+		public String getErrorDescription() {
+			return errorDescription;
+		}
+		
+		public void setErrorDescription(String errorDescription) {
+			this.errorDescription = errorDescription;
 		}
 }
