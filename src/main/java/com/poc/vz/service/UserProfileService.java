@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 
 import com.poc.vz.model.Order;
 import com.poc.vz.model.Product;
+import com.poc.vz.model.Recommendation;
 import com.poc.vz.model.Repair;
 import com.poc.vz.model.User;
 import com.poc.vz.model.UserProfile;
@@ -176,5 +177,60 @@ public class UserProfileService {
 		Order order = entityManager.find(Order.class, orderId);
 		return order;
 	}
-
+	
+	@Transactional
+	public List<Repair> getRepairJobs(String userProfileId)
+	{
+		Query query = entityManager.createQuery("Select rp from UserProfile up, Order jb, Repair rp "
+				+ "where jb.userProfileId=up.userProfileId and rp.orderId=jb.orderId and up.userProfileId=:userProfileId");
+		query.setParameter("userProfileId", userProfileId);
+		@SuppressWarnings("unchecked")
+		List<Repair> repairs = query.getResultList();
+		return repairs;
+	}
+	
+	@Transactional
+	public Repair getRepairDetails(String repairId)
+	{
+		Repair repair = entityManager.find(Repair.class, repairId);
+		return repair;
+	}
+	
+	@Transactional
+	public Product getProduct(String repairId)
+	{
+		Query query = entityManager.createQuery("Select pr from Repair rp, Order jo, Product pr "
+				+ "where rp.orderId = jo.orderId and pr.productId=jo.productId and rp.repairId=:repairId");
+		query.setParameter("repairId", repairId);
+		Product product = (Product) query.getSingleResult();
+		return product;
+	}
+	
+	@Transactional
+	public List<Order> getOrderList()
+	{
+		Query query = entityManager.createQuery("Select jb from Order jb");
+		@SuppressWarnings("unchecked")
+		List<Order> orders = query.getResultList();
+		return orders;
+	}
+	
+	@Transactional
+	public List<Repair> getRepairJobs()
+	{
+		Query query = entityManager.createQuery("Select rp from UserProfile up, Order jb, Repair rp "
+				+ "where jb.userProfileId=up.userProfileId and rp.orderId=jb.orderId");
+		@SuppressWarnings("unchecked")
+		List<Repair> repairs = query.getResultList();
+		return repairs;
+	}
+	
+	@Transactional
+	public Recommendation getRecommendation(String orderId)
+	{
+		Query query = entityManager.createQuery("Select rec from Recommendation where orderId=:orderId");
+		query.setParameter("orderId", orderId);
+		Recommendation recommendation  = (Recommendation) query.getSingleResult();
+		return recommendation;
+	}
 }

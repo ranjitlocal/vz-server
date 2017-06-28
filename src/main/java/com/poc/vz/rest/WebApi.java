@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,23 +18,17 @@ import javax.ws.rs.core.Response;
 import com.poc.vz.constant.ResponseCode;
 import com.poc.vz.model.Order;
 import com.poc.vz.model.Product;
+import com.poc.vz.model.Recommendation;
 import com.poc.vz.model.Repair;
-import com.poc.vz.model.User;
 import com.poc.vz.model.UserProfile;
 import com.poc.vz.request.CheckProfileRequest;
 import com.poc.vz.request.OrderCreationRequest;
 import com.poc.vz.request.RepairRequest;
-import com.poc.vz.request.TestRequestBean;
 import com.poc.vz.request.UserProfileRequest;
-import com.poc.vz.request.UserRequest;
 import com.poc.vz.response.OrderResponse;
 import com.poc.vz.response.ProductRepsonse;
 import com.poc.vz.response.RepairResponse;
-import com.poc.vz.response.TestResponseBean;
-import com.poc.vz.response.UserProfileRes;
 import com.poc.vz.response.UserProfileResponse;
-import com.poc.vz.response.UserProfileTest;
-import com.poc.vz.service.TestService;
 import com.poc.vz.service.UserProfileService;
 
 /**
@@ -47,8 +40,6 @@ import com.poc.vz.service.UserProfileService;
 @Path("api")
 public class WebApi
 {
-	@Inject
-	private TestService testService;
 	
 	@Inject
 	private UserProfileService userProfileService;
@@ -56,73 +47,8 @@ public class WebApi
 	@GET
     @Path("helloworld")
     public String helloworld() {
-        return "Hello World!";
+        return "TEsting webservice";
     }
-    
-    @GET
-    @Path("helloname/{name}")
-    public String hello(@PathParam("name") final String name) {
-      return "Hello " +name;
-    }
-    
-    @POST
-    @Path("getBeanResponse")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public TestResponseBean beanData(TestRequestBean bean)
-    {
-    	TestResponseBean responseBean = new TestResponseBean();
-    	responseBean.setMessage("Hello "+bean.getProperty());
-    	responseBean.setSuccess(true);
-    	return responseBean;
-    }
-    
-    @POST
-    @Path("checkDI")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public TestResponseBean checkDI(TestRequestBean bean)
-    {
-    	TestResponseBean responseBean = testService.getResponse(bean.getProperty());
-    	return responseBean;
-    }
-    
-    @POST
-    @Path("checkFormParam")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response checkDI(@FormParam("parameter1") String parameter1, @FormParam("parameter2") String parameter2)
-    {
-    	return Response.ok().entity("parameter1 =>"+parameter1+", parameter2"+parameter2).build();
-    }
-    
-    @POST
-    @Path("saveprofile")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response persistUserProfile(UserRequest profile)
-    {
-    	User user = userProfileService.save(profile);
-    	UserProfileRes profileResponse = null;
-    	
-    	if(user != null)
-    	{
-    		UserProfileTest userProfile = new UserProfileTest();
-    		userProfile.setId(user.getId());
-    		userProfile.setName(user.getName());
-    		userProfile.setMobileNumber(user.getMobileNumber());
-    		userProfile.setEmailId(user.getEmailId());
-    		
-    		profileResponse = new UserProfileRes();
-    		profileResponse.setSuccess(true);
-    		profileResponse.setProfile(userProfile);
-    		
-    		return Response.ok().entity(profileResponse).build();
-    	}
-    	
-    	return null;
-    }
-    
     
     @POST
     @Path("checkProfile")
@@ -343,4 +269,156 @@ public class WebApi
     	
     	return Response.ok(repairResponse).build();
     }
+    
+    @GET
+    @Path("getRepairJobList/{userProfileId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRepairJobList(@PathParam("userProfileId") String userProfileId)
+    {
+    	RepairResponse repairResponse = new RepairResponse();
+    	
+    	if(userProfileId != null)
+    	{
+    		List<Repair> repairs = userProfileService.getRepairJobs(userProfileId);
+    		repairResponse.setRepairs(repairs);
+    		repairResponse.setSuccess(true);
+    		repairResponse.setSuccessCode(ResponseCode.GET_REPAIR_JOB_LIST_SUCCESS_CODE);
+    	}
+    	else
+    	{
+    		repairResponse.setSuccess(false);
+    		repairResponse.setErrorCode(ResponseCode.NULL_REQUEST_ERROR_CODE);
+    		repairResponse.setErrorDescription(ResponseCode.NULL_REQUEST_ERROR_DESCRIPTION);
+    	}
+    	
+    	return Response.ok(repairResponse).build();
+    }
+    
+    @GET
+    @Path("getRepairJobStaus/{repairId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRepairJobStatus(@PathParam("repairId") String repairId)
+    {
+    	RepairResponse repairResponse = new RepairResponse();
+    	
+    	if(repairId != null)
+    	{
+    		Repair repair = userProfileService.getRepairDetails(repairId);
+    		if(repair != null)
+    		{
+    			Product product = userProfileService.getProduct(repairId);
+    			if(product != null)
+    			{
+    				repairResponse.setSuccess(true);
+    				repairResponse.setSuccessCode(ResponseCode.GET_REPAIR_JOB_STATUS_SUCCESS_CODE);
+    				repairResponse.setRepair(repair);
+    				repairResponse.setProduct(product);
+    			}
+    			else
+    			{
+    				repairResponse.setSuccess(false);
+    				repairResponse.setErrorCode(ResponseCode.GET_REPAIR_JOB_STATUS_ERROR_CODE);
+    				repairResponse.setErrorDescription(ResponseCode.GET_REPAIR_JOB_STATUS_ERROR_DESCRIPTION);
+    			}
+    		}
+    		else
+    		{
+    			repairResponse.setSuccess(false);
+				repairResponse.setErrorCode(ResponseCode.GET_REPAIR_JOB_STATUS_ERROR_CODE);
+				repairResponse.setErrorDescription(ResponseCode.GET_REPAIR_JOB_STATUS_REPAIR_DETAIL_NOT_FOUND);
+    		}
+    	}
+    	else
+    	{
+    		repairResponse.setSuccess(false);
+    		repairResponse.setErrorCode(ResponseCode.NULL_REQUEST_ERROR_CODE);
+    		repairResponse.setErrorDescription(ResponseCode.NULL_REQUEST_ERROR_DESCRIPTION);
+    	}
+    	
+    	return Response.ok(repairResponse).build();
+    }
+    
+    @GET
+    @Path("getOrderList")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrderList()
+    {
+    	OrderResponse orderResponse = new OrderResponse();
+
+    	List<Order> orders = userProfileService.getOrderList();
+    	if(orders != null)
+    	{
+    		orderResponse.setOrders(orders);
+    		orderResponse.setSuccess(true);
+    		orderResponse.setSuccessCode(ResponseCode.GET_ORDER_LIST_MOBILE_SUCCESS_CODE);
+    	}
+    	else
+    	{
+    		orderResponse.setSuccess(false);
+    		orderResponse.setErrorCode(ResponseCode.GET_ORDER_LIST_MOBILE_ERROR_CODE);
+    		orderResponse.setErrorDescription(ResponseCode.GET_ORDER_LIST_MOBILE_ERROR_DESCRIPTION);
+    	}
+
+    	return Response.ok(orderResponse).build();
+    }
+    
+    @GET
+    @Path("getOrderDetails/{orderId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrderDetails(@PathParam("orderId") String orderId)
+    {
+    	ProductRepsonse productRepsonse = new ProductRepsonse();
+    	
+    	if(orderId != null)
+    	{
+    		Product product = userProfileService.getOrderJob(orderId);
+    		if(product != null)
+    		{
+    			productRepsonse.setProduct(product);
+    			productRepsonse.setOrderId(orderId);
+    			productRepsonse.setSuccess(true);
+    			productRepsonse.setSuccessCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_SUCCESS_CODE);
+    		}
+    		else
+    		{
+    			productRepsonse.setSuccess(false);
+    			productRepsonse.setErrorCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_CODE);
+    			productRepsonse.setErrorDescription(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_DESCRIPTION);
+    		}
+    	}
+    	else
+    	{
+    		productRepsonse.setSuccess(false);
+    		productRepsonse.setErrorCode(ResponseCode.NULL_REQUEST_ERROR_CODE);
+    		productRepsonse.setErrorDescription(ResponseCode.NULL_REQUEST_ERROR_DESCRIPTION);
+    	}
+    	
+    	return Response.ok(productRepsonse).build();
+    }
+    
+    @GET
+    @Path("getRepairJobList")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRepairJobList()
+    {
+    	RepairResponse repairResponse = new RepairResponse();
+
+    	List<Repair> repairs = userProfileService.getRepairJobs();
+    	repairResponse.setRepairs(repairs);
+    	repairResponse.setSuccess(true);
+    	repairResponse.setSuccessCode(ResponseCode.GET_REPAIR_JOB_LIST_SUCCESS_CODE);
+
+    	return Response.ok(repairResponse).build();
+    }
+    
+    @GET
+    @Path("/getRecommendation")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRecommendation(String orderId)
+    {
+    	Recommendation recommendation = userProfileService.getRecommendation(orderId);
+    	return Response.ok(recommendation).build();
+    }
+    
+    
 }

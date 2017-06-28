@@ -1,6 +1,9 @@
 package com.poc.vz.response;
 
+import java.util.List;
+
 import com.poc.vz.model.Order;
+import com.poc.vz.model.Product;
 import com.poc.vz.model.Repair;
 import com.poc.vz.model.UserProfile;
 
@@ -19,6 +22,8 @@ public class RepairResponse extends BaseResponse {
 	private UserProfile userProfile;
 	private Order order;
 	private Repair repair;
+	private Product product;
+	private List<Repair> repairs;
 	
 	public UserProfile getUserProfile() {
 		return userProfile;
@@ -42,6 +47,22 @@ public class RepairResponse extends BaseResponse {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+	
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public List<Repair> getRepairs() {
+		return repairs;
+	}
+
+	public void setRepairs(List<Repair> repairs) {
+		this.repairs = repairs;
 	}
 	
 }

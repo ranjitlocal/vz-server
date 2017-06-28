@@ -30,6 +30,7 @@ public class Product implements Serializable{
 	private String color;
 	private String configuration;
 	private String shortDescription;
+	private String ownerName;
 	private String productType;
 	private String productSetId;
 	private String productGroupId;
@@ -91,6 +92,14 @@ public class Product implements Serializable{
 
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
+	}
+	
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 
 	public String getProductType() {
