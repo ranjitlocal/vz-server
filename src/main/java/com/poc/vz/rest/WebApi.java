@@ -27,6 +27,7 @@ import com.poc.vz.request.RepairRequest;
 import com.poc.vz.request.UserProfileRequest;
 import com.poc.vz.response.OrderResponse;
 import com.poc.vz.response.ProductRepsonse;
+import com.poc.vz.response.RecommendationResponse;
 import com.poc.vz.response.RepairResponse;
 import com.poc.vz.response.UserProfileResponse;
 import com.poc.vz.service.UserProfileService;
@@ -412,12 +413,36 @@ public class WebApi
     }
     
     @GET
-    @Path("/getRecommendation")
+    @Path("/getRecommendation/{orderId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRecommendation(String orderId)
+    public Response getRecommendation(@PathParam("orderId") String orderId)
     {
-    	Recommendation recommendation = userProfileService.getRecommendation(orderId);
-    	return Response.ok(recommendation).build();
+    	RecommendationResponse recommendationResponse = new RecommendationResponse();
+    	
+    	if(orderId != null)
+    	{
+    		Recommendation recommendation = userProfileService.getRecommendation(orderId);
+    		if(recommendation != null)
+    		{
+    			recommendationResponse.setRecommendation(recommendation);
+    			recommendationResponse.setSuccess(true);
+    			recommendationResponse.setSuccessCode(ResponseCode.GET_RECOMMENDATION_MOBILE_SUCCESS_CODE);
+    		}
+    		else
+    		{
+    			recommendationResponse.setSuccess(false);
+    			recommendationResponse.setSuccessCode(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_CODE);
+    			recommendationResponse.setErrorDescription(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_DESCRIPTION);
+    		}
+    	}
+    	else
+    	{
+    		recommendationResponse.setSuccess(false);
+    		recommendationResponse.setErrorCode(ResponseCode.NULL_REQUEST_ERROR_CODE);
+    		recommendationResponse.setErrorDescription(ResponseCode.NULL_REQUEST_ERROR_DESCRIPTION);
+    	}
+    	
+    	return Response.ok(recommendationResponse).build();
     }
     
     
