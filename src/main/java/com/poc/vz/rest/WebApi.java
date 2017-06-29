@@ -185,6 +185,17 @@ public class WebApi
     		List<Order> orders = userProfileService.getPurchasedOrder(userProfileId);
     		if(orders != null)
     		{
+    			List<Order> list = new ArrayList<Order>();
+        		Product product = null;
+        		for(Order order : orders)
+        		{
+        			product = userProfileService.getProductDetails(order.getProductId());
+        			order.setProductType(product.getProductType());
+        			order.setProductShortDescription(product.getShortDescription());
+        			order.setProductCategory(product.getProductCategory());
+        			list.add(order);
+        		}
+        		
     			orderResponse.setOrders(orders);
     			orderResponse.setSuccess(true);
     			orderResponse.setSuccessCode(ResponseCode.GET_PURCHASED_ORDER_LIST_SUCCESS_CODE);
@@ -362,6 +373,7 @@ public class WebApi
     			product = userProfileService.getProductDetails(order.getProductId());
     			order.setProductType(product.getProductType());
     			order.setProductShortDescription(product.getShortDescription());
+    			order.setProductCategory(product.getProductCategory());
     			list.add(order);
     		}
     		
@@ -458,7 +470,7 @@ public class WebApi
     		else
     		{
     			recommendationResponse.setSuccess(false);
-    			recommendationResponse.setSuccessCode(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_CODE);
+    			recommendationResponse.setErrorCode(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_CODE);
     			recommendationResponse.setErrorDescription(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_DESCRIPTION);
     		}
     	}

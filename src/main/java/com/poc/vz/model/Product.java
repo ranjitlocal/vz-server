@@ -36,6 +36,9 @@ public class Product implements Serializable{
 	private String productGroupId;
 	private String productGroupDescription;
 	private String groupId;
+	
+	public Product()
+	{}
 
 	@Id
 	public String getProductId() {

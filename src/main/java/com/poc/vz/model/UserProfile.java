@@ -37,6 +37,10 @@ public class UserProfile implements Serializable {
 	private int postalCode;
 	private String accountState;
 	
+	public UserProfile(){
+		
+	}
+	
 	@Id
 	public String getUserProfileId() {
 		return userProfileId;

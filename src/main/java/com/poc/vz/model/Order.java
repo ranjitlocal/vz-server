@@ -35,6 +35,10 @@ public class Order implements Serializable{
 	private int quantity;
 	private String productShortDescription;
 	private String productType;
+	private String productCategory;
+	
+	public Order()
+	{}
 	
 	@Id
 	public String getOrderId() {
@@ -131,6 +135,14 @@ public class Order implements Serializable{
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(String productCategory) {
+		this.productCategory = productCategory;
 	}
 	
 }

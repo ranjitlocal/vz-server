@@ -37,6 +37,11 @@ public class Recommendation implements Serializable {
 	private String groupId;
 	private String productGroupId;
 	private String productGroupDescription;
+	private String orderId;
+	private String userProfileId;
+	
+	public Recommendation()
+	{}
 	
 	@Id
 	public String getRecId() {
@@ -159,4 +164,20 @@ public class Recommendation implements Serializable {
 		this.productGroupDescription = productGroupDescription;
 	}
 
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getUserProfileId() {
+		return userProfileId;
+	}
+
+	public void setUserProfileId(String userProfileId) {
+		this.userProfileId = userProfileId;
+	}
+	
 }

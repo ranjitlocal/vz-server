@@ -228,7 +228,7 @@ public class UserProfileService {
 	@Transactional
 	public Recommendation getRecommendation(String orderId)
 	{
-		Query query = entityManager.createQuery("Select rec from Recommendation where orderId=:orderId");
+		Query query = entityManager.createQuery("Select rec from Recommendation rec where orderId=:orderId");
 		query.setParameter("orderId", orderId);
 		Recommendation recommendation  = (Recommendation) query.getSingleResult();
 		return recommendation;

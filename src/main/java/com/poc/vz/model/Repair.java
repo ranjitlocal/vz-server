@@ -30,6 +30,10 @@ public class Repair implements Serializable {
 	private String repairShortDescription;
 	private String repairStatus;
 	
+	public Repair(){
+		
+	}
+	
 	@Id
 	public String getRepairId() {
 		return repairId;
