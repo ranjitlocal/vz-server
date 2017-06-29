@@ -60,4 +60,8 @@ public interface ResponseCode {
 	
 	public static final String NULL_REQUEST_ERROR_CODE = "000";
 	public static final String NULL_REQUEST_ERROR_DESCRIPTION = "Request data not found";
+	
+	public static final String NO_DATA_FOUND_ERROR_CODE = "XXX";
+	public static final String NO_DATA_FOUND_ERROR_DESCRIPTION = "No Data Found";
+	
 }

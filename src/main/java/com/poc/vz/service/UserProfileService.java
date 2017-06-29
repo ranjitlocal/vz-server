@@ -138,11 +138,16 @@ public class UserProfileService {
 	@Transactional
 	public List<Order> getPurchasedOrder(String userProfileId)
 	{
-		Query query = entityManager.createQuery("Select jb from Order jb where userProfileId=:userProfileId");
-		query.setParameter("userProfileId", userProfileId);
-		@SuppressWarnings("unchecked")
-		List<Order> orders = query.getResultList();
-		return orders;
+		try{
+			Query query = entityManager.createQuery("Select jb from Order jb where userProfileId=:userProfileId");
+			query.setParameter("userProfileId", userProfileId);
+			@SuppressWarnings("unchecked")
+			List<Order> orders = query.getResultList();
+			return orders;
+		}
+		catch(NoResultException exception){
+			return null;
+		}
 	}
 	
 	@Transactional
@@ -181,12 +186,17 @@ public class UserProfileService {
 	@Transactional
 	public List<Repair> getRepairJobs(String userProfileId)
 	{
-		Query query = entityManager.createQuery("Select rp from UserProfile up, Order jb, Repair rp "
-				+ "where jb.userProfileId=up.userProfileId and rp.orderId=jb.orderId and up.userProfileId=:userProfileId");
-		query.setParameter("userProfileId", userProfileId);
-		@SuppressWarnings("unchecked")
-		List<Repair> repairs = query.getResultList();
-		return repairs;
+		try{
+			Query query = entityManager.createQuery("Select rp from UserProfile up, Order jb, Repair rp "
+					+ "where jb.userProfileId=up.userProfileId and rp.orderId=jb.orderId and up.userProfileId=:userProfileId");
+			query.setParameter("userProfileId", userProfileId);
+			@SuppressWarnings("unchecked")
+			List<Repair> repairs = query.getResultList();
+			return repairs;
+		}
+		catch(NoResultException exception){
+			return null;
+		}
 	}
 	
 	@Transactional
@@ -199,39 +209,62 @@ public class UserProfileService {
 	@Transactional
 	public Product getProduct(String repairId)
 	{
-		Query query = entityManager.createQuery("Select pr from Repair rp, Order jo, Product pr "
-				+ "where rp.orderId = jo.orderId and pr.productId=jo.productId and rp.repairId=:repairId");
-		query.setParameter("repairId", repairId);
-		Product product = (Product) query.getSingleResult();
-		return product;
+		try{
+			Query query = entityManager.createQuery("Select pr from Repair rp, Order jo, Product pr "
+					+ "where rp.orderId = jo.orderId and pr.productId=jo.productId and rp.repairId=:repairId");
+			query.setParameter("repairId", repairId);
+			Product product = (Product) query.getSingleResult();
+			return product;
+		}
+		catch(NoResultException exception){
+			return null;
+		}
 	}
 	
 	@Transactional
 	public List<Order> getOrderList()
 	{
-		Query query = entityManager.createQuery("Select jb from Order jb");
-		@SuppressWarnings("unchecked")
-		List<Order> orders = query.getResultList();
-		return orders;
+		try{
+			Query query = entityManager.createQuery("Select jb from Order jb");
+			@SuppressWarnings("unchecked")
+			List<Order> orders = query.getResultList();
+			return orders;
+		}
+		catch(NoResultException exception){
+			return null;
+		}
 	}
 	
 	@Transactional
 	public List<Repair> getRepairJobs()
 	{
-		Query query = entityManager.createQuery("Select rp from UserProfile up, Order jb, Repair rp "
-				+ "where jb.userProfileId=up.userProfileId and rp.orderId=jb.orderId");
-		@SuppressWarnings("unchecked")
-		List<Repair> repairs = query.getResultList();
-		return repairs;
+		try
+		{
+			Query query = entityManager.createQuery("Select rp from UserProfile up, Order jb, Repair rp "
+					+ "where jb.userProfileId=up.userProfileId and rp.orderId=jb.orderId");
+			@SuppressWarnings("unchecked")
+			List<Repair> repairs = query.getResultList();
+			return repairs;
+		}
+		catch(NoResultException exception){
+			return null;
+		}
 	}
 	
 	@Transactional
 	public Recommendation getRecommendation(String orderId)
 	{
-		Query query = entityManager.createQuery("Select rec from Recommendation rec where orderId=:orderId");
-		query.setParameter("orderId", orderId);
-		Recommendation recommendation  = (Recommendation) query.getSingleResult();
-		return recommendation;
+		try
+		{
+			Query query = entityManager.createQuery("Select rec from Recommendation rec where orderId=:orderId");
+			query.setParameter("orderId", orderId);
+			Recommendation recommendation  = (Recommendation) query.getSingleResult();
+			return recommendation;	
+		}
+		catch(NoResultException exception){
+			return null;
+		}
+		
 	}
 	
 	@Transactional

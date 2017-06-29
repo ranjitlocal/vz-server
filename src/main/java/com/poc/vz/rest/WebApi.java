@@ -470,8 +470,8 @@ public class WebApi
     		else
     		{
     			recommendationResponse.setSuccess(false);
-    			recommendationResponse.setErrorCode(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_CODE);
-    			recommendationResponse.setErrorDescription(ResponseCode.GET_RECOMMENDATION_MOBILE_ERROR_DESCRIPTION);
+    			recommendationResponse.setErrorCode(ResponseCode.NO_DATA_FOUND_ERROR_CODE);
+    			recommendationResponse.setErrorDescription(ResponseCode.NO_DATA_FOUND_ERROR_DESCRIPTION);
     		}
     	}
     	else
