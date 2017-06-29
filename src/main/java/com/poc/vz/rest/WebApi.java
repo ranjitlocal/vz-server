@@ -340,6 +340,11 @@ public class WebApi
     	return Response.ok(repairResponse).build();
     }
     
+    /**
+     * API for Mobile APP
+     * @return
+     */
+    
     @GET
     @Path("getOrderList")
     @Produces(MediaType.APPLICATION_JSON)
@@ -379,33 +384,44 @@ public class WebApi
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrderDetails(@PathParam("orderId") String orderId)
     {
-    	ProductRepsonse productRepsonse = new ProductRepsonse();
+    	OrderResponse orderResponse = new OrderResponse();
     	
     	if(orderId != null)
     	{
     		Product product = userProfileService.getOrderJob(orderId);
     		if(product != null)
     		{
-    			productRepsonse.setProduct(product);
-    			productRepsonse.setOrderId(orderId);
-    			productRepsonse.setSuccess(true);
-    			productRepsonse.setSuccessCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_SUCCESS_CODE);
+    			Order order = userProfileService.getOrder(orderId);
+    			
+    			if(order != null)
+    			{
+    				orderResponse.setOrder(order);
+    				orderResponse.setProduct(product);
+        			orderResponse.setSuccess(true);
+        			orderResponse.setSuccessCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_SUCCESS_CODE);
+    			}
+    			else
+    			{
+    				orderResponse.setSuccess(false);
+        			orderResponse.setErrorCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_CODE);
+        			orderResponse.setErrorDescription(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_DESCRIPTION);
+    			}
     		}
     		else
     		{
-    			productRepsonse.setSuccess(false);
-    			productRepsonse.setErrorCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_CODE);
-    			productRepsonse.setErrorDescription(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_DESCRIPTION);
+    			orderResponse.setSuccess(false);
+    			orderResponse.setErrorCode(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_CODE);
+    			orderResponse.setErrorDescription(ResponseCode.GET_ORDER_DETAILS_MOBILE_ERROR_DESCRIPTION);
     		}
     	}
     	else
     	{
-    		productRepsonse.setSuccess(false);
-    		productRepsonse.setErrorCode(ResponseCode.NULL_REQUEST_ERROR_CODE);
-    		productRepsonse.setErrorDescription(ResponseCode.NULL_REQUEST_ERROR_DESCRIPTION);
+    		orderResponse.setSuccess(false);
+    		orderResponse.setErrorCode(ResponseCode.NULL_REQUEST_ERROR_CODE);
+    		orderResponse.setErrorDescription(ResponseCode.NULL_REQUEST_ERROR_DESCRIPTION);
     	}
     	
-    	return Response.ok(productRepsonse).build();
+    	return Response.ok(orderResponse).build();
     }
     
     @GET

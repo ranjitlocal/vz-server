@@ -6,6 +6,7 @@ package com.poc.vz.response;
 import java.util.List;
 
 import com.poc.vz.model.Order;
+import com.poc.vz.model.Product;
 import com.poc.vz.model.UserProfile;
 
 /**
@@ -21,6 +22,7 @@ public class OrderResponse extends BaseResponse {
 	
 	private UserProfile userProfile;
 	private Order order;
+	private Product product;
 	private List<Order> orders;
 	
 	public UserProfile getUserProfile() {
@@ -45,6 +47,14 @@ public class OrderResponse extends BaseResponse {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 }

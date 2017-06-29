@@ -240,4 +240,6 @@ public class UserProfileService {
 		Product product = entityManager.find(Product.class, productId);
 		return product;
 	}
+	
+	
 }

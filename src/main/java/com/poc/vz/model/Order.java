@@ -32,6 +32,7 @@ public class Order implements Serializable{
 	private String totalCost_in_$;
 	private String grantCost_in_$;
 	private String orderStatus;
+	private int quantity;
 	private String productShortDescription;
 	private String productType;
 	
@@ -122,6 +123,14 @@ public class Order implements Serializable{
 
 	public void setProductType(String productType) {
 		this.productType = productType;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 }
