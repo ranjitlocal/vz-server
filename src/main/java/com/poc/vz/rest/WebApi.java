@@ -66,6 +66,7 @@ public class WebApi
 
     		if(userProfileExist != null)
         	{
+    			userProfileResponse.setUserProfile(userProfileExist);
         		userProfileResponse.setSuccess(true);
         		userProfileResponse.setSuccessCode(ResponseCode.CHECK_PROFILE_SUCCESS_CODE);
         	}
