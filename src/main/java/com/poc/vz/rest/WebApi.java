@@ -485,5 +485,21 @@ public class WebApi
     	return Response.ok(recommendationResponse).build();
     }
     
+    @GET
+    @Path("getRecommendationList")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRecommendationList()
+    {
+    	RecommendationResponse recommendationResponse = new RecommendationResponse();
+    	
+    	List<Recommendation> recommendations = userProfileService.getRecommendationList();
+    	
+    	recommendationResponse.setRecommendations(recommendations);
+    	recommendationResponse.setSuccess(true);
+    	recommendationResponse.setSuccessCode(ResponseCode.GET_RECOMMENDATION_MOBILE_SUCCESS_CODE);
+    	
+    	return Response.ok(recommendationResponse).build();
+    }
+    
     
 }

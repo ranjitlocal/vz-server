@@ -274,5 +274,18 @@ public class UserProfileService {
 		return product;
 	}
 	
-	
+	@Transactional
+	public List<Recommendation> getRecommendationList()
+	{
+		try
+		{
+			Query query = entityManager.createQuery("Select rec from Recommendation rec");
+			@SuppressWarnings("unchecked")
+			List<Recommendation> list  = query.getResultList();
+			return list;	
+		}
+		catch(NoResultException exception){
+			return null;
+		}
+	}
 }
